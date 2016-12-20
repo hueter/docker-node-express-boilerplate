@@ -1,0 +1,29 @@
+version: '2'
+services:
+  server:
+    build: .
+    command: nodemon -L server/server.js
+    environment:
+      NODE_ENV: development
+      NODE_CONFIG_DIR: ./server/config
+    links:
+      - mongodb
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/boilerplate-api
+
+  nginx:
+    image: nginx:latest
+    links:
+      - server
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
+  mongodb:
+    image: mongo:3.2.11
+    command: mongod --httpinterface --rest
+    ports:
+      - "27017:27017"
