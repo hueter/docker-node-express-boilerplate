@@ -1,0 +1,14 @@
+{
+	"Boilerplate": {
+		"dbConfig": {
+			"host": "DB_HOST",
+			"name": "DB",
+			"port": "DB_PORT",
+			"options": {
+				"user": "DB_USER",
+				"pass": "DB_PASSWORD",
+				"replset": "DB_REPLICA_SET"
+			}
+		}
+	}
+}

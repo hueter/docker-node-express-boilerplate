@@ -1,0 +1,17 @@
+{
+	"Boilerplate": {
+		"dbConfig": {
+			"host": "",
+			"name": "",
+			"port": "",
+			"options": {
+				"config": {
+					"autoIndex": false
+				},
+				"user": "",
+				"pass": "",
+				"replset": ""
+			}
+		}
+	}
+}
