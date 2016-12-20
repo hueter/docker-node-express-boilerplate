@@ -1,0 +1,17 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "rules": {
+    "no-console": "off",
+    "no-underscore-dangle": "off",
+    "array-callback-return": "off",
+    "max-len": "off",
+  },
+  "parser-options": {
+         "ecmaVersion": 6,
+         "ecmaFeatures": {
+             "experimentalObjectRestSpread": true,
+             "sourceType": "module"
+         }
+     }
+}
