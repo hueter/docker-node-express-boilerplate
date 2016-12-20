@@ -12,4 +12,4 @@ RUN npm install nodemon@1.11.0 --global && \
     npm install --production
 
 EXPOSE 5000
-CMD ["pm2", "start", "--no-daemon", "./server/server.js"]
+CMD ["pm2-docker", "start", "./server/server.js"]

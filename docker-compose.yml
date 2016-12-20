@@ -11,7 +11,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/boilerplate-api
+      - .:/docker-node-express-boilerplate
 
   nginx:
     image: nginx:latest

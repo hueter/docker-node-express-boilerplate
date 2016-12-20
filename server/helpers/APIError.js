@@ -1,10 +1,10 @@
 /* npm packages */
-const config = require('config');
-const raven = require('raven');
 const uuid = require('uuid');
+
 
 /* global constants */
 const correlationId = uuid.v4();
+
 
 /**
  * @extends Error
@@ -68,7 +68,6 @@ function formatError(errors) {
 }
 
 function errorHandler(error, request, response, next) {
-
   let err = error;
 
   /* if we get an unhandled error, we want to log to console and turn it into an API error */
