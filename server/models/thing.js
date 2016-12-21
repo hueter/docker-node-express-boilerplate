@@ -101,11 +101,12 @@ thingSchema.statics = {
       .skip(skip)
       .limit(limit)
       .sort({ name: 1 })
+      .select({ _id: 0, __v: 0 })
       .lean()
       .exec()
       .then(thngs => {
         if (thngs.length === 0) {
-          throw new APIError(404, 'No Things Found', `No Things found matching your query.`);
+          throw new APIError(404, 'No Things Found', 'No Things found matching your query.');
         }
         return thngs;
       })

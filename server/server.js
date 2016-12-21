@@ -22,8 +22,20 @@ if (config.util.getEnv('NODE_ENV') !== 'standalone') {
 }
 
 /* --- API middleware --- */
-app.use(bodyParser.urlencoded({ extended: true }));
 
+// body parser setup
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+// error handling specific to body parser only
+app.use((error, request, response, next) => {
+  if (error instanceof SyntaxError || error instanceof TypeError) {
+    // console.error(error);
+    return next(new APIError(400, 'Bad Request', 'Malformed JSON.'));
+  }
+  return next();
+});
+
+// response headers setup
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', '*');
   response.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,Correlation-Id');

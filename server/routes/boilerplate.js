@@ -10,9 +10,9 @@ const router = new express.Router();
 
 /* All the Things Route */
 router.route('')
-  .get()
-  .post()
-  .delete();
+  .get(manyThingsHandler.listThings)
+  .post(manyThingsHandler.createThing)
+  .delete(manyThingsHandler.removeThings);
 
 /* Single Thing by Name Route */
 router.route('/:name')
