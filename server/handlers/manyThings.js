@@ -11,6 +11,7 @@ const utils = require('../helpers/utils');
 /* global constants */
 const v = new Validator();
 
+
 /**
  * Validate the POST request body and create a new Thing
  */

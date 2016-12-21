@@ -16,9 +16,9 @@ router.route('')
 
 /* Single Thing by Name Route */
 router.route('/:name')
-  .get()
-  .patch()
-  .delete();
+  .get(singleThingHandler.getThing)
+  .patch(singleThingHandler.updateThing)
+  .delete(singleThingHandler.removeThing);
 
 
 module.exports = router;
