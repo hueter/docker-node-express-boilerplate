@@ -101,14 +101,13 @@ thingSchema.statics = {
       .skip(skip)
       .limit(limit)
       .sort({ name: 1 })
-      .select({ _id: 0, __v: 0 })
-      .lean()
       .exec()
       .then(thngs => {
         if (thngs.length === 0) {
           throw new APIError(404, 'No Things Found', 'No Things found matching your query.');
         }
-        return thngs;
+        const objThngs = thngs.map(thng => thng.toObject());  // proper formatting
+        return objThngs;
       })
       .catch(error => {
         let mongoError = error;
@@ -144,6 +143,14 @@ thingSchema.statics = {
   },
 };
 
+/* Transform with .toObject to remove __v and _id from response */
+if (!thingSchema.options.toObject) thingSchema.options.toObject = {};
+thingSchema.options.toObject.transform = (doc, ret) => {
+  const transformed = ret;
+  delete transformed._id;
+  delete transformed.__v;
+  return transformed;
+};
 
 /** Ensure MongoDB Indices **/
 thingSchema.index({ name: 1, number: 1 }, { unique: true });  // example compound idx
