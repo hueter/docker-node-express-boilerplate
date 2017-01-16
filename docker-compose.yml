@@ -2,10 +2,11 @@ version: '2'
 services:
   server:
     build: .
-    command: nodemon -L server/server.js
+    command: pm2-docker --watch server/server.js
     environment:
       NODE_ENV: development
       NODE_CONFIG_DIR: ./server/config
+      NODE_APP_INSTANCE: ''
     links:
       - mongodb
     ports:
