@@ -1,8 +1,5 @@
 # Dockerized Node 7 + Express + MongoDB + Nginx
 
-
-![Docker-Node-Express](https://i.imgsafe.org/c5db876bee.png)
-
 ## Purpose
 
 This is boilerplate code that you can feel free to pick apart and use for building Node APIs with Docker, Node/Express, Mongoose, and Nginx. The JavaScript files use ES8 syntax.
