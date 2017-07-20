@@ -3,7 +3,7 @@ const { Validator } = require('jsonschema');
 
 /* app imports */
 const Thing = require('../models/thing');
-const { thingPatchFormat } = require('../schemas/index');
+const { thingPatchFormat } = require('../schemas');
 const utils = require('../helpers/utils');
 
 /* global constants */
@@ -11,31 +11,31 @@ const v = new Validator();
 
 /**
  * Get a single thing
- * @param {string} name - the name of the Thing to retrieve
+ * @param {String} name - the name of the Thing to retrieve
  */
 function getThing(request, response, next) {
   const { name } = request.params;
-  return Thing
-    .get(name)
+  return Thing.get(name)
     .then(thng => response.json(thng))
     .catch(dbError => next(dbError));
 }
 
 /**
  * Remove a single thing
- * @param {string} name - the name of the Thing to remove
+ * @param {String} name - the name of the Thing to remove
  */
 function removeThing(request, response, next) {
   const { name } = request.params;
-  return Thing
-    .delete(name)
+  return Thing.delete(name)
     .then(() => {
       const deleteMsg = {
-        Success: [{
-          status: 200,
-          title: 'Thing Deleted.',
-          detail: `The thing '${name}' was deleted successfully.`,
-        }],
+        Success: [
+          {
+            status: 200,
+            title: 'Thing Deleted.',
+            detail: `The thing '${name}' was deleted successfully.`
+          }
+        ]
       };
       return response.json(deleteMsg);
     })
@@ -44,16 +44,17 @@ function removeThing(request, response, next) {
 
 /**
  * Update a single thing
- * @param {string} name - the name of the Thing to update
+ * @param {String} name - the name of the Thing to update
  */
 function updateThing(request, response, next) {
   const { name } = request.params;
-  const validationErrors = utils.schemaValidate(v.validate(request.body, thingPatchFormat));
+  const validationErrors = utils.schemaValidate(
+    v.validate(request.body, thingPatchFormat)
+  );
   if (validationErrors.length > 0) {
     return next(validationErrors);
   }
-  return Thing
-    .patch(name, request.body)
+  return Thing.patch(name, request.body)
     .then(thng => response.json(thng))
     .catch(dbError => next(dbError));
 }
@@ -61,5 +62,5 @@ function updateThing(request, response, next) {
 module.exports = {
   getThing,
   removeThing,
-  updateThing,
+  updateThing
 };

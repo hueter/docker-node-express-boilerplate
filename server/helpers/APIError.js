@@ -1,10 +1,8 @@
 /* npm packages */
 const uuid = require('uuid');
 
-
 /* global constants */
 const correlationId = uuid.v4();
-
 
 /**
  * @extends Error
@@ -26,11 +24,15 @@ class ExtendableError extends Error {
 class APIError extends ExtendableError {
   /**
    * Create an Error Object
-   * @param {number} status - The HTTP Status Code (e.g. 404)
-   * @param {string} title - The title corresponding to the Status Code (e.g. Bad Request)
-   * @param {string} message - Specific information about what caused the error
+   * @param {Number} status - The HTTP Status Code (e.g. 404)
+   * @param {String} title - The title corresponding to the Status Code (e.g. Bad Request)
+   * @param {String} message - Specific information about what caused the error
    */
-  constructor(status = 500, title = 'Internal Server Error', message = 'An unknown server error occurred.') {
+  constructor(
+    status = 500,
+    title = 'Internal Server Error',
+    message = 'An unknown server error occurred.'
+  ) {
     super(status, title, message);
   }
 }
@@ -48,7 +50,7 @@ function formatError(errors) {
       const formattedError = {
         status: error.status,
         title: error.title,
-        detail: error.message,
+        detail: error.message
       };
       return formattedError;
     });
@@ -59,7 +61,7 @@ function formatError(errors) {
     const formattedError = {
       status: error.status,
       title: error.title,
-      detail: error.message,
+      detail: error.message
     };
     // wrap the object in an array and then an object
     errorFormat = { errors: [formattedError] };
@@ -71,20 +73,25 @@ function errorHandler(error, request, response, next) {
   let err = error;
 
   /* if we get an unhandled error, we want to log to console and turn it into an API error */
-  if ((!(error instanceof APIError) && !(error[0] instanceof APIError))) {
+  if (!(error instanceof APIError) && !(error[0] instanceof APIError)) {
     console.error(err);
-    err = new APIError(500, error.type || 'Internal Server Error', error.message || 'An unknown server error occurred');
+    err = new APIError(
+      500,
+      error.type || 'Internal Server Error',
+      error.message || 'An unknown server error occurred'
+    );
   }
   const processedErrors = formatError(err);
 
-  response.status(processedErrors.errors[0].status || 500).json(processedErrors);
+  response
+    .status(processedErrors.errors[0].status || 500)
+    .json(processedErrors);
   return next();
 }
-
 
 module.exports = {
   APIError,
   correlationId,
   errorHandler,
-  formatError,
+  formatError
 };

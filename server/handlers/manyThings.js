@@ -4,25 +4,24 @@ const { Validator } = require('jsonschema');
 /* app imports */
 const { APIError } = require('../helpers/APIError');
 const Thing = require('../models/thing');
-const { thingPostFormat } = require('../schemas/index');
+const { thingPostFormat } = require('../schemas');
 const utils = require('../helpers/utils');
-
 
 /* global constants */
 const v = new Validator();
-
 
 /**
  * Validate the POST request body and create a new Thing
  */
 function createThing(request, response, next) {
-  const validationErrors = utils.schemaValidate(v.validate(request.body, thingPostFormat));
+  const validationErrors = utils.schemaValidate(
+    v.validate(request.body, thingPostFormat)
+  );
   if (validationErrors.length > 0) {
     return next(validationErrors);
   }
   const newThing = new Thing(request.body);
-  return Thing
-    .create(newThing)
+  return Thing.create(newThing)
     .then(thng => response.status(201).json(thng))
     .catch(dbError => next(dbError));
 }
@@ -48,8 +47,7 @@ function listThings(request, response, next) {
     }
   }
 
-  return Thing
-    .list({}, skip, limit)
+  return Thing.list({}, skip, limit)
     .then(thingsList => response.json(thingsList))
     .catch(dbError => next(dbError));
 }
@@ -58,15 +56,16 @@ function listThings(request, response, next) {
  * Remove all the things. Will always respond with 200 OK
  */
 function removeThings(request, response, next) {
-  return Thing
-    .deleteAll()
+  return Thing.deleteAll()
     .then(() => {
       const deleteMsg = {
-        Success: [{
-          status: 200,
-          title: 'Things Deleted.',
-          detail: 'All the things were deleted successfully.',
-        }],
+        Success: [
+          {
+            status: 200,
+            title: 'Things Deleted.',
+            detail: 'All the things were deleted successfully.'
+          }
+        ]
       };
       return response.json(deleteMsg);
     })
@@ -76,5 +75,5 @@ function removeThings(request, response, next) {
 module.exports = {
   createThing,
   listThings,
-  removeThings,
+  removeThings
 };

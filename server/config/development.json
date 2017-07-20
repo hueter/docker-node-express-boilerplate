@@ -1,14 +1,14 @@
 {
-	"Boilerplate": {
-		"dbConfig": {
-			"host": "mongodb",
-			"name": "boilerplate",
-			"port": "27017",
-			"options": {
-				"config": {
-					"autoIndex": true
-				}
-			}
-		}
-	}
+  "Boilerplate": {
+    "dbConfig": {
+      "host": "mongodb",
+      "name": "boilerplate",
+      "port": "27017",
+      "options": {
+        "config": {
+          "autoIndex": true
+        }
+      }
+    }
+  }
 }

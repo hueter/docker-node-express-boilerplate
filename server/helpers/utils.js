@@ -1,6 +1,5 @@
 const { APIError } = require('./APIError');
 
-
 /**
 * Validate the institutions POST and PATCH payloads against the appropriate schema definitions.
 * @param {object} a schema validation object {the return value of v.validate(payload, schemaDefinition)}
@@ -19,11 +18,13 @@ function schemaValidate(validation) {
       } else {
         // Some formatting of the error messages.
         //   Example: need to replace "" with '' for better-looking JSON
-        let errMsg = error.stack.replace(/"/g, '\'');
-        errMsg = errMsg.replace('instance.', '');
-        message = `${errMsg}.`;
+        message = error.stack.replace(/"/g, '\'').replace('instance.', '');
       }
-      return new APIError(400, 'Bad Request', `Schema Validation Error: ${message}`);
+      return new APIError(
+        400,
+        'Bad Request',
+        `Schema Validation Error: ${message}`
+      );
     });
   }
   return errors;
@@ -31,16 +32,25 @@ function schemaValidate(validation) {
 
 /**
 * Validate the 'limit' query parameter
-* @param {string} limit - limit query parameter
-* @return {Promise} A promise with either an errors array or just an empty success
+* @param {String} limit - limit query parameter
+* @param {Number} maxLimit - the maximum limit you want to display
+* @return {Number} or {APIError} A valid limit or an API error
 */
-function limitValidate(limit) {
-  const limitNum = Number(limit);
+function limitValidate(limit, maxLimit) {
+  const limitNum = +limit;
 
   if (isNaN(limitNum)) {
-    return new APIError(400, 'Bad Request', `Invalid limit: '${limit}'. Limit needs to be an integer.`);
-  } else if (limitNum <= 0 || limitNum > 50) {
-    return new APIError(400, 'Bad Request', `Limit of ${limit} is out of range. Limit needs to be between 1 and 100.`);
+    return new APIError(
+      400,
+      'Bad Request',
+      `Invalid limit: '${limit}'. Limit needs to be an integer.`
+    );
+  } else if (limitNum <= 0 || limitNum > maxLimit) {
+    return new APIError(
+      400,
+      'Bad Request',
+      `Limit of ${limit} is out of range. Limit needs to be an integer between 1 and ${maxLimit}.`
+    );
   }
 
   return limitNum;
@@ -48,14 +58,18 @@ function limitValidate(limit) {
 
 /**
 * Validate the 'skip'query parameter
-* @param {string} skip - skip query parameter
-* @return {Promise} A promise with either an errors array or just an empty success
+* @param {String} skip - skip query parameter
+* @return {Number} or {APIError} A valid skip or an API error
 */
 function skipValidate(skip) {
-  const skipNum = Number(skip);
+  const skipNum = +skip;
 
   if (isNaN(skipNum)) {
-    return new APIError(400, 'Bad Request', `Invalid skip: '${skip}'. Skip needs to be an integer.`);
+    return new APIError(
+      400,
+      'Bad Request',
+      `Invalid skip: '${skip}'. Skip needs to be an integer.`
+    );
   }
   return skipNum;
 }
