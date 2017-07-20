@@ -1,4 +1,4 @@
-# Dockerized Node 7 + Express + MongoDB + Nginx
+# Dockerized Node 8 + Express + MongoDB + Nginx
 
 ## Purpose
 

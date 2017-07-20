@@ -1,15 +1,14 @@
-const { validRouteArgs } = require('../server/schemas');
 const { expect } = require('chai');
 const {
   limitValidate,
   skipValidate
 } = require('../server/helpers/utils');
-const { APIError, makeError } = require('../server/helpers/APIError');
+const { APIError, formatError } = require('../server/helpers/APIError');
 
 describe('Error Handler', function() {
-  describe('makeError()', function() {
+  describe('formatError()', function() {
     it('should return a formatted single error object', function() {
-      const errorObject = makeError(
+      const errorObject = formatError(
         new APIError(400, 'Bad Request', 'Test Detail')
       );
       expect(errorObject).to.be.an('object');
@@ -22,7 +21,7 @@ describe('Error Handler', function() {
       const error1 = new APIError(400, 'Bad Request', 'first error');
       const error2 = new APIError(400, 'Bad Request', 'second error');
       const errors = [error1, error2];
-      const errorArray = makeError(errors);
+      const errorArray = formatError(errors);
       expect(errorArray).to.be.an('object');
       expect(errorArray).to.have.key('errors');
       expect(errorArray.errors[0]).to.have.property('status', 400);
