@@ -25,7 +25,7 @@ services:
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
   mongodb:
-    image: mongo:3.4.6
+    image: mongo:3.4.7
     command: mongod --httpinterface --rest
     ports:
       - "27017:27017"

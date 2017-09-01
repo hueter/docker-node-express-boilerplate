@@ -1,10 +1,10 @@
-FROM node:8.2.0
+FROM node:8.4.0
 
 MAINTAINER Michael Hueter <mthueter@gmail.com>
 
-# add local user for security
-RUN npm install pm2@2.5.0 --global
+RUN npm install pm2@2.6.0 --global --quiet
 
+# add local user for security
 RUN groupadd -r nodejs \
    && useradd -m -r -g nodejs nodejs
 
@@ -15,8 +15,7 @@ RUN mkdir -p /home/nodejs/app
 WORKDIR /home/nodejs/app
 COPY . /home/nodejs/app
 
-# Global installation for pm2 and prod installation for the rest
-RUN npm install --production
+RUN npm install --production --quiet
 
 EXPOSE 5000
 

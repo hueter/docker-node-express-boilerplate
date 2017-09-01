@@ -1,11 +1,11 @@
 const { APIError } = require('./APIError');
 
 /**
-* Validate the institutions POST and PATCH payloads against the appropriate schema definitions.
+* Validate the thing POST and PATCH payloads against the appropriate schema definitions.
 * @param {object} a schema validation object {the return value of v.validate(payload, schemaDefinition)}
 * @return {Promise} A promise with either an errors array or just an empty success
 */
-function schemaValidate(validation) {
+function schemaValidate(validation, type) {
   let errors = [];
 
   if (!validation.valid) {
@@ -14,11 +14,11 @@ function schemaValidate(validation) {
       let message;
       // console.log(error);
       if (error.name === 'additionalProperties') {
-        message = `'${error.argument}' is an invalid institution attribute.`;
+        message = `'${error.argument}' is an invalid ${type} attribute.`;
       } else {
         // Some formatting of the error messages.
         //   Example: need to replace "" with '' for better-looking JSON
-        message = error.stack.replace(/"/g, '\'').replace('instance.', '');
+        message = error.stack.replace(/"/g, "'").replace('instance.', '');
       }
       return new APIError(
         400,

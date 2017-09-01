@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 Promise = require('bluebird'); // eslint-disable-line no-native-reassign
 
 /* app imports */
-const { APIError, correlationId, errorHandler } = require('./helpers/APIError');
+const { APIError, errorHandler } = require('./helpers/APIError');
 const boilerplate = require('./routes');
 
 /* global constants */
@@ -16,12 +16,10 @@ const app = express();
 mongoose.Promise = Promise;
 mongoose.set('debug', true);
 const dbConfig = config.get('Boilerplate.dbConfig');
-if (config.util.getEnv('NODE_ENV') !== 'standalone') {
-  mongoose.connect(
-    `mongodb://${dbConfig.host}/${dbConfig.name}`,
-    dbConfig.options
-  );
-}
+mongoose.connect(
+  `mongodb://${dbConfig.host}/${dbConfig.name}`,
+  dbConfig.options
+);
 
 /* --- API middleware --- */
 
@@ -40,13 +38,9 @@ app.use((error, request, response, next) => {
 // response headers setup
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', '*');
-  response.header(
-    'Access-Control-Allow-Headers',
-    'Content-Type,Authorization,Correlation-Id'
-  );
+  response.header('Access-Control-Allow-Headers', 'Content-Type');
   response.header('Access-Control-Allow-Methods', 'POST,GET,PATCH,DELETE');
   response.header('Access-Control-Expose-Headers', 'Correlation-Id');
-  response.header('Correlation-Id', correlationId);
   response.header('Content-Type', 'application/json');
   return next();
 });

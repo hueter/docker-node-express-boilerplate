@@ -1,9 +1,6 @@
 /* npm packages */
 const uuid = require('uuid');
 
-/* global constants */
-const correlationId = uuid.v4();
-
 /**
  * @extends Error
  */
@@ -91,7 +88,6 @@ function errorHandler(error, request, response, next) {
 
 module.exports = {
   APIError,
-  correlationId,
   errorHandler,
   formatError
 };
