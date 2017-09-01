@@ -6,7 +6,7 @@ const { APIError } = require('./APIError');
 * @return {Promise} A promise with either an errors array or just an empty success
 */
 function schemaValidate(validation, type) {
-  let errors = [];
+  const errors = [];
 
   if (!validation.valid) {
     // Transpose each element of Validation.errors[] to the appropriate format
