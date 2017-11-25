@@ -1,62 +1,59 @@
-/* npm packages */
+// npm packages
 const bodyParser = require('body-parser');
-const config = require('config');
+const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
-Promise = require('bluebird'); // eslint-disable-line no-native-reassign
+Promise = require('bluebird'); // eslint-disable-line
 
-/* app imports */
-const { APIError, errorHandler } = require('./helpers/APIError');
-const boilerplate = require('./routes');
+// app imports
+const { ENV, PORT, MONGODB_URI } = require('./config');
+const { errorHandler } = require('./handlers');
+const { thingsRouter } = require('./routers');
 
-/* global constants */
+// global constants
+dotenv.config();
 const app = express();
-
-/* --- Database --- */
+const {
+  bodyParserHandler,
+  globalErrorHandler,
+  fourOhFourHandler,
+  fourOhFiveHandler
+} = errorHandler;
+// database
 mongoose.Promise = Promise;
-mongoose.set('debug', true);
-const dbConfig = config.get('Boilerplate.dbConfig');
-mongoose.connect(
-  `mongodb://${dbConfig.host}/${dbConfig.name}`,
-  dbConfig.options
-);
-
-/* --- API middleware --- */
+if (ENV === 'development') {
+  mongoose.set('debug', true);
+}
+mongoose.connect(MONGODB_URI, { useMongoClient: true, autoIndex: true });
 
 // body parser setup
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-// error handling specific to body parser only
-app.use((error, request, response, next) => {
-  if (error instanceof SyntaxError || error instanceof TypeError) {
-    // console.error(error);
-    return next(new APIError(400, 'Bad Request', 'Malformed JSON.'));
-  }
-  return next();
-});
+app.use(bodyParser.json({ type: '*/*' }));
+app.use(bodyParserHandler); // error handling specific to body parser only
 
 // response headers setup
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', '*');
-  response.header('Access-Control-Allow-Headers', 'Content-Type');
-  response.header('Access-Control-Allow-Methods', 'POST,GET,PATCH,DELETE');
-  response.header('Access-Control-Expose-Headers', 'Correlation-Id');
+  response.header(
+    'Access-Control-Allow-Headers',
+    'Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization'
+  );
+  response.header(
+    'Access-Control-Allow-Methods',
+    'POST,GET,PATCH,DELETE,OPTIONS'
+  );
   response.header('Content-Type', 'application/json');
   return next();
 });
 
-app.use('/', boilerplate);
-/* Generic 404 error-maker for routes that do not contain resources */
-app.get('*', (request, response, next) => {
-  const err = new APIError(
-    404,
-    'Resource Not Found.',
-    `${request.path} is not valid path to a Boilerplate API resource.`
-  );
-  return next(err);
-});
-app.use(errorHandler);
+app.use('/things', thingsRouter);
+app.get('*', fourOhFourHandler); // catch-all for 404 "Not Found" errors
+app.all('*', fourOhFiveHandler); // catch-all for 405 "Method Not Allowed" errors
+app.use(globalErrorHandler);
 
-app.listen(5000, () => {
-  console.log('Boilerplate API express server is listening on port 5000...');
+app.listen(PORT, () => {
+  /* eslint-disable no-console */
+  console.log(
+    `Boilerplate API express server is listening on port ${PORT}...`
+  );
 });

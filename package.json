@@ -1,6 +1,6 @@
 {
   "author": "Michael Hueter <mthueter@gmail.com>",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "name": "docker-node-express-boilerplate",
   "description": "Boilerplate Dockerized Express code to launch new RESTful APIs.",
   "repository": {
@@ -11,19 +11,20 @@
   "scripts": {
     "test": "mocha tests/unit.js"
   },
+  "license": "MIT",
   "dependencies": {
-    "bluebird": "3.5.0",
-    "body-parser": "1.17.2",
+    "bluebird": "3.5.1",
+    "body-parser": "1.18.2",
     "chai": "4.1.2",
-    "config": "1.26.2",
-    "express": "4.15.4",
+    "dotenv": "4.0.0",
+    "express": "4.16.2",
     "jsonschema": "1.2.0",
-    "mocha": "3.5.0",
-    "mongoose": "4.11.9"
+    "mocha": "4.0.1",
+    "mongoose": "4.13.5"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^8.0.2",
     "babel-preset-es2017": "^6.24.1",
-    "eslint": "^4.5.0"
+    "eslint": "^4.11.0"
   }
 }

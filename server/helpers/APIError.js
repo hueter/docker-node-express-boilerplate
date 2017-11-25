@@ -30,35 +30,15 @@ class APIError extends ExtendableError {
     super(status, title, message);
   }
   toJSON() {
-    const { status, title, message: detail } = this;
+    const { status, title, message } = this;
     return {
-      status,
-      title,
-      detail
+      error: {
+        status,
+        title,
+        message
+      }
     };
   }
 }
 
-function errorHandler(error, request, response, next) {
-  const err = error;
-
-  /* if we get an unhandled error, we want to log to console and turn it into an API error */
-  if (!(error instanceof APIError) && !(error[0] instanceof APIError)) {
-    console.error(err);
-    err = new APIError(
-      500,
-      error.type || 'Internal Server Error',
-      error.message || 'An unknown server error occurred'
-    );
-  }
-
-  return response
-    .status(err.errors[0].status || 500)
-    .json(err);
-}
-
-module.exports = {
-  APIError,
-  errorHandler,
-  formatError
-};
+module.exports = APIError;

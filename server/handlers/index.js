@@ -1,7 +1,3 @@
-const manyThingsHandler = require('./manyThings');
-const singleThingHandler = require('./singleThing');
-
-module.exports = {
-  manyThingsHandler,
-  singleThingHandler
-};
+exports.errorHandler = require('./error');
+exports.thingHandler = require('./thing');
+exports.thingsHandler = require('./things');

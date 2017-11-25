@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is boilerplate code that you can feel free to pick apart and use for building Node APIs with Docker, Node/Express, Mongoose, and Nginx. The JavaScript files use ES8 syntax.
+This is boilerplate code that you can feel free to pick apart and re-use for building Node.js APIs with Docker, Node/Express, Mongoose, and Nginx. The JavaScript files use ES8 syntax.
 There are basic GET/POST/PATCH/DELETE endpoints and corresponding database methods.
 
 ## How to Install & Run

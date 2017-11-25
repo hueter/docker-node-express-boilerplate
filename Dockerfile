@@ -1,8 +1,8 @@
-FROM node:8.4.0
+FROM node:9.1.0
 
-MAINTAINER Michael Hueter <mthueter@gmail.com>
+LABEL MAINTAINER Michael Hueter <mthueter@gmail.com>
 
-RUN npm install pm2@2.6.0 --global --quiet
+RUN npm install pm2@2.7.2 --global --quiet
 
 # add local user for security
 RUN groupadd -r nodejs \

@@ -1,7 +1,2 @@
-const thingPatchFormat = require('./thingPatchFormat');
-const thingPostFormat = require('./thingPostFormat');
-
-module.exports = {
-  thingPatchFormat,
-  thingPostFormat
-};
+exports.thingNewSchema = require('./thingNew');
+exports.thingUpdateSchema = require('./thingUpdate');

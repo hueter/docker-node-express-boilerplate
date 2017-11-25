@@ -1,10 +1,10 @@
-/* npm packages */
+// npm packages
 const mongoose = require('mongoose');
 
-/* app imports */
-const { APIError } = require('../helpers/APIError');
+// app imports
+const { APIError, processDBError } = require('../helpers');
 
-/* global constants */
+// globals
 const Schema = mongoose.Schema;
 
 const thingSchema = new Schema({
@@ -20,153 +20,101 @@ thingSchema.statics = {
    * @param {object} newThing - an instance of Thing
    * @returns {Promise<Thing, APIError>}
    */
-  create(newThing) {
-    return newThing.save().then(thng => thng.toObject()).catch(error => {
-      let mongoError;
-      if (error.code === 11000) {
-        mongoError = new APIError(
+  async createThing(newThing) {
+    try {
+      const duplicate = await this.findOne({ name: newThing.name });
+      if (duplicate) {
+        throw new APIError(
           409,
-          'Thing Already Exists',
-          `There is already an thing '${newThing.name}'.`
-        );
-      } else {
-        mongoError = new APIError(
-          500,
-          'Database Error',
-          `Internal DB Error: ${mongoError}`
+          'User Already Exists',
+          `There is already a thing with name '${newThing.name}'.`
         );
       }
-      return Promise.reject(mongoError);
-    });
+      const thing = await newThing.save();
+      return thing.toObject();
+    } catch (err) {
+      return Promise.reject(processDBError(err));
+    }
   },
   /**
    * Delete a single Thing
    * @param {String} name - the Thing's name
    * @returns {Promise<Thing, APIError>}
    */
-  delete(name) {
-    return this.findOneAndRemove({ name })
-      .exec()
-      .then(thng => {
-        if (thng) {
-          return true;
-        }
-        throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
-      })
-      .catch(error => {
-        let mongoError = error;
-        if (!(error instanceof APIError)) {
-          mongoError = new APIError(
-            500,
-            mongoError.name,
-            `Internal Database Error: ${mongoError}`
-          );
-        }
-        return Promise.reject(mongoError);
-      });
-  },
-  /**
- * Delete all the Things
- * @returns {Promise<Empty, APIError>}
- */
-  deleteAll() {
-    return this.remove().exec().then(() => true).catch(error => {
-      let mongoError = error;
-      if (!(error instanceof APIError)) {
-        mongoError = new APIError(
-          500,
-          mongoError.name,
-          `Internal Database Error: ${mongoError}`
-        );
+  async deleteThing(name) {
+    try {
+      const deleted = await this.findOneAndRemove({ name }).exec();
+      if (deleted) {
+        return {
+          Success: [
+            {
+              status: 200,
+              title: 'Thing Deleted.',
+              detail: `The thing '${name}' was deleted successfully.`
+            }
+          ]
+        };
       }
-      return Promise.reject(mongoError);
-    });
+      throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
+    } catch (err) {
+      return Promise.reject(processDBError(err));
+    }
   },
   /**
    * Get a single Thing by name
    * @param {String} name - the Thing's name
    * @returns {Promise<Thing, APIError>}
    */
-  get(name) {
-    return this.findOne({ name }).exec().then(thng => {
-      if (thng) {
-        return thng.toObject();
+  async readThing(name) {
+    try {
+      const thing = await this.findOne({ name }).exec();
+
+      if (thing) {
+        return thing.toObject();
       }
-      const notFoundError = new APIError(
-        404,
-        'Thing Not Found',
-        `No thing '${name}' found.`
-      );
-      return Promise.reject(notFoundError);
-    });
+      throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
+    } catch (err) {
+      return Promise.reject(processDBError(err));
+    }
   },
   /**
    * Get a list of Things
-   * @param {object} query - pre-formatted query to retrieve things.
-   * @param {String} skip - # of docs to skip (for pagination)
-   * @param {String} limit - # of docs to limit by (for pagination)
-   * @returns {Promise<Things, APIError>}
+   * @param {Object} query - pre-formatted query to retrieve things.
+   * @param {Object} fields - a list of fields to select or not in object form
+   * @param {String} skip - number of docs to skip (for pagination)
+   * @param {String} limit - number of docs to limit by (for pagination)
+   * @returns {Promise<Users, APIError>}
    */
-  list(query, skip, limit) {
-    return this.find(query)
-      .skip(skip)
-      .limit(limit)
-      .sort({ name: 1 })
-      .exec()
-      .then(thngs => {
-        if (thngs.length === 0) {
-          throw new APIError(
-            404,
-            'No Things Found',
-            'No Things found matching your query.'
-          );
-        }
-        const objThngs = thngs.map(thng => thng.toObject()); // proper formatting
-        return objThngs;
-      })
-      .catch(error => {
-        let mongoError = error;
-        if (!(error instanceof APIError)) {
-          mongoError = new APIError(
-            500,
-            'Database Error',
-            `Internal DB Error: ${error}`
-          );
-        }
-        return Promise.reject(mongoError);
-      });
+  async readThings(query, fields, skip, limit) {
+    try {
+      const things = await this.find(query)
+        .skip(skip)
+        .limit(limit)
+        .sort({ name: 1 })
+        .exec();
+      if (!things.length) {
+        return [];
+      }
+      return things.map(thing => thing.toObject());
+    } catch (err) {
+      return Promise.reject(processDBError(err));
+    }
   },
   /**
    * Patch/Update a single Thing
    * @param {String} name - the Thing's name
-   * @param {object} patchBody - the json containing the Thing attributes
+   * @param {Object} thingUpdate - the json containing the Thing attributes
    * @returns {Promise<Thing, APIError>}
    */
-  patch(name, patchBody) {
-    return this.findOneAndUpdate({ name }, patchBody, { new: true })
-      .exec()
-      .then(thng => {
-        if (!thng) {
-          throw new APIError(
-            404,
-            'Thing Not Found',
-            `No thing '${name}' found.`
-          );
-        }
-        return thng.toObject();
-      })
-      .catch(error => {
-        let mongoError = error;
-        // if it's not a pre-formatted error like the 404 above we need to handle it
-        if (!(error instanceof APIError)) {
-          mongoError = new APIError(
-            500,
-            'Database Error',
-            `Internal DB Error: ${error}`
-          );
-        }
-        return Promise.reject(mongoError);
-      });
+  async updateThing(name, thingUpdate) {
+    try {
+      const thing = await this.findOneAndUpdate({ name }, thingUpdate, {
+        new: true
+      }).exec();
+      return thing.toObject();
+    } catch (err) {
+      return Promise.reject(processDBError(err));
+    }
   }
 };
 
