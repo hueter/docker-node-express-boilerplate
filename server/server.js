@@ -24,7 +24,13 @@ mongoose.Promise = Promise;
 if (ENV === 'development') {
   mongoose.set('debug', true);
 }
-mongoose.connect(MONGODB_URI, { useMongoClient: true, autoIndex: true });
+
+mongoose
+  .connect(MONGODB_URI, { useMongoClient: true, autoIndex: false })
+  .then(() => {
+    console.log('Connected to database');
+  })
+  .catch(err => console.error(err));
 
 // body parser setup
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -47,13 +53,13 @@ app.use((request, response, next) => {
 });
 
 app.use('/things', thingsRouter);
+
 app.get('*', fourOhFourHandler); // catch-all for 404 "Not Found" errors
 app.all('*', fourOhFiveHandler); // catch-all for 405 "Method Not Allowed" errors
+
 app.use(globalErrorHandler);
 
 app.listen(PORT, () => {
   /* eslint-disable no-console */
-  console.log(
-    `Boilerplate API express server is listening on port ${PORT}...`
-  );
+  console.log(`Boilerplate API express server is listening on port ${PORT}...`);
 });

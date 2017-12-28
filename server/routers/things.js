@@ -12,14 +12,14 @@ const { createThing, readThing, updateThing, deleteThing } = thingHandler;
 /* All the Things Route */
 router
   .route('')
-  .get(readThings)
-  .post(createThing);
+    .get(readThings)
+    .post(createThing);
 
 /* Single Thing by Name Route */
 router
   .route('/:name')
-  .get(readThing)
-  .patch(updateThing)
-  .delete(deleteThing);
+    .get(readThing)
+    .patch(updateThing)
+    .delete(deleteThing);
 
 module.exports = router;
