@@ -1,1 +1,1 @@
-exports.Thing = require('./thing');
+exports.Thing = require('./Thing');
