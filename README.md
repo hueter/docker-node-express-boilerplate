@@ -1,4 +1,4 @@
-# Dockerized Node 8 + Express + MongoDB + Nginx
+# Dockerized Node 9 + Express + MongoDB + Nginx
 
 ## Purpose
 
@@ -7,6 +7,6 @@ There are basic GET/POST/PATCH/DELETE endpoints and corresponding database metho
 
 ## How to Install & Run
 
-0. Fork/Clone the repo
-1. Run `docker-compose up` (Assuming you've installed docker for OSX/Windows or Docker toolkit)
-2. Server is accessible at `http://localhost:5000` if you have Docker for Windows or Mac. Use `http://localhost` without specifying the port to hit the NGINX proxy. If you are using Docker toolkit, you'll need to hit the IP of the docker-machine (port rules are the same.)
+0.  Fork/Clone the repo
+1.  Run `docker-compose up` (Assuming you've installed docker for OSX/Windows or Docker toolkit)
+1.  Server is accessible at `http://localhost:5000` if you have Docker for Windows or Mac. Use `http://localhost` without specifying the port to hit the NGINX proxy. If you are using Docker toolkit, you'll need to hit the IP of the docker-machine (port rules are the same.)

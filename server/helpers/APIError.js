@@ -1,21 +1,5 @@
-/**
- * @extends Error
- */
-class ExtendableError extends Error {
-  constructor(status, title, message) {
-    super(message);
-    this.name = this.constructor.name;
-    this.status = status;
-    this.title = title;
-    this.message = message;
-    this.isPublic = true;
-    this.isOperational = true; // This is required since bluebird 4 doesn't append it anymore.
-    Error.captureStackTrace(this, this.constructor.name);
-  }
-}
-
 /** Class representing an API Error Response with a related HTTP Status Code **/
-class APIError extends ExtendableError {
+class APIError extends Error {
   /**
    * Create an Error Object
    * @param {Number} status - The HTTP Status Code (e.g. 404)
@@ -27,7 +11,10 @@ class APIError extends ExtendableError {
     title = 'Internal Server Error',
     message = 'An unknown server error occurred.'
   ) {
-    super(status, title, message);
+    super(message);
+    this.status = status;
+    this.title = title;
+    this.message = message;
   }
   toJSON() {
     const { status, title, message } = this;

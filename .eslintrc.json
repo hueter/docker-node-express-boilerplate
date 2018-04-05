@@ -4,7 +4,7 @@
     "es6": true,
     "node": true,
     "browser": false,
-    "mocha": true
+    "jest": true
   },
   "parserOptions": {
     "ecmaVersion": 2017,
