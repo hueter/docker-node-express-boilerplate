@@ -16,7 +16,7 @@ async function readThings(request, response, next) {
   }
 
   try {
-    const things = await Thing.readThings({}, skip, limit);
+    const things = await Thing.readThings({}, {}, skip, limit);
     return response.json(things);
   } catch (err) {
     next(err);

@@ -1,12 +1,12 @@
-FROM node:9.1.0
+FROM node:9.10.1
 
 LABEL MAINTAINER Michael Hueter <mthueter@gmail.com>
 
-RUN npm install pm2@2.7.2 --global --quiet
+RUN npm install pm2@2.10.2 --global --quiet
 
 # add local user for security
 RUN groupadd -r nodejs \
-   && useradd -m -r -g nodejs nodejs
+  && useradd -m -r -g nodejs nodejs
 
 USER nodejs
 

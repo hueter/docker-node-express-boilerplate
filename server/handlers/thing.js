@@ -22,7 +22,7 @@ async function createThing(request, response, next) {
   }
 
   try {
-    const newThing = Thing.createThing(new Thing(request.body));
+    const newThing = await Thing.createThing(new Thing(request.body));
     return response.status(201).json(newThing);
   } catch (err) {
     return next(err);

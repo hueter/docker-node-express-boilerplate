@@ -87,7 +87,7 @@ thingSchema.statics = {
    */
   async readThings(query, fields, skip, limit) {
     try {
-      const things = await this.find(query)
+      const things = await this.find(query, fields)
         .skip(skip)
         .limit(limit)
         .sort({ name: 1 })

@@ -2,7 +2,8 @@
   "author": "Michael Hueter <mthueter@gmail.com>",
   "version": "1.0.0",
   "name": "docker-node-express-boilerplate",
-  "description": "Boilerplate Dockerized Express code to launch new RESTful APIs.",
+  "description":
+    "Boilerplate Dockerized Express code to launch new RESTful APIs.",
   "repository": {
     "type": "git",
     "url": "git@github.com:mhueter/docker-node-express-boilerplate.git"
