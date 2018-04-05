@@ -25,8 +25,10 @@ if (ENV === 'development') {
   mongoose.set('debug', true);
 }
 
+/* eslint-disable no-console */
+
 mongoose
-  .connect(MONGODB_URI, { useMongoClient: true, autoIndex: false })
+  .connect(MONGODB_URI, { autoIndex: false })
   .then(() => {
     console.log('Connected to database');
   })
@@ -37,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(bodyParserHandler); // error handling specific to body parser only
 
-// response headers setup
+// response headers setup; CORS
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', '*');
   response.header(
@@ -54,12 +56,13 @@ app.use((request, response, next) => {
 
 app.use('/things', thingsRouter);
 
-app.get('*', fourOhFourHandler); // catch-all for 404 "Not Found" errors
-app.all('*', fourOhFiveHandler); // catch-all for 405 "Method Not Allowed" errors
+// catch-all for 404 "Not Found" errors
+app.get('*', fourOhFourHandler);
+// catch-all for 405 "Method Not Allowed" errors
+app.all('*', fourOhFiveHandler);
 
 app.use(globalErrorHandler);
 
 app.listen(PORT, () => {
-  /* eslint-disable no-console */
   console.log(`Boilerplate API express server is listening on port ${PORT}...`);
 });
