@@ -7,7 +7,7 @@ services:
       NODE_ENV: development
       NODE_CONFIG_DIR: ./server/config
       NODE_APP_INSTANCE: ''
-    links:
+    depends_on:
       - mongodb
     ports:
       - "5000:5000"
