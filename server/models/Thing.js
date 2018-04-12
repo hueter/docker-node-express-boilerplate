@@ -26,7 +26,7 @@ thingSchema.statics = {
       if (duplicate) {
         throw new APIError(
           409,
-          'User Already Exists',
+          'Thing Already Exists',
           `There is already a thing with name '${newThing.name}'.`
         );
       }
@@ -83,7 +83,7 @@ thingSchema.statics = {
    * @param {Object} fields - a list of fields to select or not in object form
    * @param {String} skip - number of docs to skip (for pagination)
    * @param {String} limit - number of docs to limit by (for pagination)
-   * @returns {Promise<Users, APIError>}
+   * @returns {Promise<Things, APIError>}
    */
   async readThings(query, fields, skip, limit) {
     try {

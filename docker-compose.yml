@@ -2,10 +2,9 @@ version: '3'
 services:
   server:
     build: .
-    command: pm2-docker --watch server/server.js
+    command: pm2-dev server/server.js
     environment:
       NODE_ENV: development
-      NODE_CONFIG_DIR: ./server/config
       NODE_APP_INSTANCE: ''
     depends_on:
       - mongodb

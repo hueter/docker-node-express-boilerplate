@@ -1,9 +1,8 @@
-FROM node:9.10.1
+FROM node:9.11
 
 LABEL MAINTAINER Michael Hueter <mthueter@gmail.com>
 
 RUN npm install pm2@2.10.2 --global --quiet
-
 # add local user for security
 RUN groupadd -r nodejs \
   && useradd -m -r -g nodejs nodejs
@@ -19,4 +18,4 @@ RUN npm install --production --quiet
 
 EXPOSE 5000
 
-CMD ["pm2-docker", "./config/process.yml"]
+CMD ["pm2-runtime", "./config/process.yml"]
