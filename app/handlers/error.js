@@ -1,3 +1,4 @@
+const { APP_NAME } = require('../config');
 const { APIError } = require('../helpers');
 
 function bodyParserHandler(error, request, response, next) {
@@ -12,7 +13,7 @@ function fourOhFourHandler(request, response, next) {
     new APIError(
       404,
       'Resource Not Found',
-      `${request.path} is not valid path to a Boilerplate API resource.`
+      `${request.path} is not valid path to a ${APP_NAME} resource.`
     )
   );
 }
