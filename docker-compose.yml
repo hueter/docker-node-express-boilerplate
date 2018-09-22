@@ -7,7 +7,7 @@ services:
       NODE_ENV: development
       NODE_APP_INSTANCE: ''
     depends_on:
-      - mongodb
+      - database
     ports:
       - '5000:5000'
     volumes:
@@ -23,7 +23,7 @@ services:
     volumes:
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
-  mongodb:
+  database:
     image: mongo:4
     command: mongod
     ports:
