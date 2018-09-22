@@ -1,8 +1,8 @@
-FROM node:9.11
+FROM node:8.12.0
 
 LABEL MAINTAINER Michael Hueter <mthueter@gmail.com>
 
-RUN npm install pm2@2.10.2 --global --quiet
+RUN npm install pm2@3.1.3 --global --quiet
 # add local user for security
 RUN groupadd -r nodejs \
   && useradd -m -r -g nodejs nodejs
@@ -18,4 +18,4 @@ RUN npm install --production --quiet
 
 EXPOSE 5000
 
-CMD ["pm2-runtime", "./config/process.yml"]
+CMD ["pm2-runtime", "./config/pm2.json"]

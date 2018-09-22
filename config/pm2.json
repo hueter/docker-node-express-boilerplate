@@ -1,0 +1,10 @@
+{
+  "apps": [
+    {
+      "name": "Boilerplate-API",
+      "script": "./app/index.js",
+      "instances": "max",
+      "exec_mode": "cluster"
+    }
+  ]
+}

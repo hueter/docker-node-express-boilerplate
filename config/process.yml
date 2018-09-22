@@ -1,5 +1,0 @@
-apps:
-  - script   : './server/server.js'
-    name     : 'Boilerplate API'
-    exec_mode: 'cluster'
-    instances: 'max'
