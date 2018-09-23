@@ -50,12 +50,12 @@ async function readThing(request, response, next) {
 async function updateThing(request, response, next) {
   const { name } = request.params;
 
-  const validationErrors = validateSchema(
+  const validSchema = validateSchema(
     v.validate(request.body, thingUpdateSchema),
     'thing'
   );
-  if (validationErrors.length > 0) {
-    return next(validationErrors);
+  if (validSchema !== 'OK') {
+    return next(validSchema);
   }
 
   try {

@@ -43,19 +43,11 @@ thingSchema.statics = {
    */
   async deleteThing(name) {
     try {
-      const deleted = await this.findOneAndRemove({ name }).exec();
-      if (deleted) {
-        return {
-          Success: [
-            {
-              status: 200,
-              title: 'Thing Deleted.',
-              detail: `The thing '${name}' was deleted successfully.`
-            }
-          ]
-        };
+      const deleted = await this.findOneAndRemove({ name });
+      if (!deleted) {
+        throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
       }
-      throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
+      return deleted.toObject();
     } catch (err) {
       return Promise.reject(processDBError(err));
     }
@@ -67,12 +59,12 @@ thingSchema.statics = {
    */
   async readThing(name) {
     try {
-      const thing = await this.findOne({ name }).exec();
+      const thing = await this.findOne({ name });
 
-      if (thing) {
-        return thing.toObject();
+      if (!thing) {
+        throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
       }
-      throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
+      return thing.toObject();
     } catch (err) {
       return Promise.reject(processDBError(err));
     }
@@ -110,7 +102,10 @@ thingSchema.statics = {
     try {
       const thing = await this.findOneAndUpdate({ name }, thingUpdate, {
         new: true
-      }).exec();
+      });
+      if (!thing) {
+        throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
+      }
       return thing.toObject();
     } catch (err) {
       return Promise.reject(processDBError(err));
