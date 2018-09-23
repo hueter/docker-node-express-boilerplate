@@ -30,6 +30,10 @@ You will need to first download and install [Docker Desktop](https://www.docker.
     - the NGINX proxy container
 1.  Server is accessible at `http://localhost:5000` if you have Docker for Windows or Mac. Use `http://localhost` without specifying the port to hit the NGINX proxy. On Linux, you may need to hit the IP Address of the docker-machine rather than `localhost` (port rules are the same.)
 
+## How to Run Tests
+
+Currently, tests are run outside of the Docker container (unfortunately for now). The tests use an in-memory version of MongoDB. You should be able to run `npm install` followed by `npm test` to run everything (assuming you have the LTS version of Node installed on your machine).
+
 ## App Structure
 
 - the current entity is called "Thing" and all the routes are based on the thing resource. When you want to start building a real API, you can probably just do a global find and replace for thing, but mind the case-sensitivity.
@@ -51,4 +55,4 @@ You will need to first download and install [Docker Desktop](https://www.docker.
 
 **./config**
 
-- config contains NGINX proxy configuration, as well as the production pm2 configuration (the process-runner of choice)
+- config contains NGINX proxy configuration, the production pm2 configuration (the process-runner of choice), and the Jest configuration to run MongoDB in memory
