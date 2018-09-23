@@ -10,4 +10,4 @@ node_modules
 .npm
 
 # Auto-Generated Jest MongoDB config
-config/jest/globalConfig.json
+globalConfig.json

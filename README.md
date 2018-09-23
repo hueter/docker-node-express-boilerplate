@@ -36,7 +36,8 @@ Currently, tests are run outside of the Docker container (unfortunately for now)
 
 ## App Structure
 
-- the current entity is called "Thing" and all the routes are based on the thing resource. When you want to start building a real API, you can probably just do a global find and replace for thing, but mind the case-sensitivity.
+- the boilerplate entity is called "Thing" and all the routes are based on the thing resource. When you want to start building a real API, you can probably just do a global find and replace for thing, but mind the case-sensitivity.
+- most folders have an `index.js` which simply exports the contents of all the files in those folders. This is to make importing things around the app slightly easier, since you can just `require` the folder name and destructure the functions you are looking for. Check out [this part of the Node.js docs](https://nodejs.org/api/modules.html#modules_folders_as_modules) for more info.
 
 **\_\_tests\_\_**
 
