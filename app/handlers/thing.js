@@ -1,24 +1,24 @@
 // npm packages
-const { Validator } = require('jsonschema');
+const { validate } = require('jsonschema');
 
 // app imports
 const { Thing } = require('../models');
+const { APIError } = require('../helpers');
 const { thingNewSchema, thingUpdateSchema } = require('../schemas');
-const { validateSchema } = require('../helpers');
-
-// globals
-const v = new Validator();
 
 /**
  * Validate the POST request body and create a new Thing
  */
 async function createThing(request, response, next) {
-  const validSchema = validateSchema(
-    v.validate(request.body, thingNewSchema),
-    'thing'
-  );
-  if (validSchema !== 'OK') {
-    return next(validSchema);
+  const validation = validate(request.body, thingNewSchema);
+  if (!validation.valid) {
+    return next(
+      new APIError(
+        400,
+        'Bad Request',
+        validation.errors.map(e => e.stack).join('. ')
+      )
+    );
   }
 
   try {
@@ -50,12 +50,15 @@ async function readThing(request, response, next) {
 async function updateThing(request, response, next) {
   const { name } = request.params;
 
-  const validSchema = validateSchema(
-    v.validate(request.body, thingUpdateSchema),
-    'thing'
-  );
-  if (validSchema !== 'OK') {
-    return next(validSchema);
+  const validation = validate(request.body, thingUpdateSchema);
+  if (!validation.valid) {
+    return next(
+      new APIError(
+        400,
+        'Bad Request',
+        validation.errors.map(e => e.stack).join('. ')
+      )
+    );
   }
 
   try {

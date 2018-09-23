@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // app imports
-const { APIError, processDBError } = require('../helpers');
+const { APIError } = require('../helpers');
 
 // globals
 const Schema = mongoose.Schema;
@@ -33,7 +33,7 @@ thingSchema.statics = {
       const thing = await newThing.save();
       return thing.toObject();
     } catch (err) {
-      return Promise.reject(processDBError(err));
+      return Promise.reject(err);
     }
   },
   /**
@@ -49,7 +49,7 @@ thingSchema.statics = {
       }
       return deleted.toObject();
     } catch (err) {
-      return Promise.reject(processDBError(err));
+      return Promise.reject(err);
     }
   },
   /**
@@ -66,7 +66,7 @@ thingSchema.statics = {
       }
       return thing.toObject();
     } catch (err) {
-      return Promise.reject(processDBError(err));
+      return Promise.reject(err);
     }
   },
   /**
@@ -89,7 +89,7 @@ thingSchema.statics = {
       }
       return things.map(thing => thing.toObject());
     } catch (err) {
-      return Promise.reject(processDBError(err));
+      return Promise.reject(err);
     }
   },
   /**
@@ -108,7 +108,7 @@ thingSchema.statics = {
       }
       return thing.toObject();
     } catch (err) {
-      return Promise.reject(processDBError(err));
+      return Promise.reject(err);
     }
   }
 };
