@@ -1,4 +1,4 @@
-# Server Boilerplate
+# Docker, Node, Express, MongoDB, & Mongoose RESTful API Server Boilerplate
 
 ![Tech Logos](./logos.png)
 
