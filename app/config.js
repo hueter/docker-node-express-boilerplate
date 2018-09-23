@@ -2,11 +2,17 @@ const mongoose = require('mongoose');
 
 const APP_NAME = 'Boilerplate API';
 const ENV = process.env.NODE_ENV;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongodb/boilerplate';
 const PORT = process.env.PORT || 5000;
 
+// database configs
+
+let MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongodb/boilerplate';
+if (ENV === 'test') {
+  MONGODB_URI = global.__MONGO_URI__;
+}
+
 mongoose.Promise = Promise;
-if (ENV === 'development') {
+if (ENV === 'development' || ENV === 'test') {
   mongoose.set('debug', true);
 }
 
