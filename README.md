@@ -1,4 +1,5 @@
-# Docker, Node, Express, MongoDB, & Mongoose RESTful API Server Boilerplate
+# RESTful API Server Boilerplate
+## Featuring Docker, Node, Express, MongoDB, Mongoose, & NGINX 
 
 ![Tech Logos](./logos.png)
 
