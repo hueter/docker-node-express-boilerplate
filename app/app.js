@@ -1,5 +1,4 @@
 // npm packages
-const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const express = require('express');
 Promise = require('bluebird'); // eslint-disable-line
@@ -23,8 +22,8 @@ const {
 connectToDatabase();
 
 // body parser setup
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ type: '*/*' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ type: '*/*' }));
 app.use(bodyParserHandler); // error handling specific to body parser only
 
 // response headers setup; CORS
