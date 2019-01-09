@@ -2,10 +2,9 @@ version: '3'
 services:
   app:
     build: .
-    command: pm2-dev ./app/index.js
+    command: pm2-dev ./app/server.js
     environment:
       NODE_ENV: development
-      NODE_APP_INSTANCE: ''
     depends_on:
       - mongodb
     ports:
