@@ -21,20 +21,16 @@ thingSchema.statics = {
    * @returns {Promise<Thing, APIError>}
    */
   async createThing(newThing) {
-    try {
-      const duplicate = await this.findOne({ name: newThing.name });
-      if (duplicate) {
-        throw new APIError(
-          409,
-          'Thing Already Exists',
-          `There is already a thing with name '${newThing.name}'.`
-        );
-      }
-      const thing = await newThing.save();
-      return thing.toObject();
-    } catch (err) {
-      return Promise.reject(err);
+    const duplicate = await this.findOne({ name: newThing.name });
+    if (duplicate) {
+      throw new APIError(
+        409,
+        'Thing Already Exists',
+        `There is already a thing with name '${newThing.name}'.`
+      );
     }
+    const thing = await newThing.save();
+    return thing.toObject();
   },
   /**
    * Delete a single Thing
@@ -42,15 +38,11 @@ thingSchema.statics = {
    * @returns {Promise<Thing, APIError>}
    */
   async deleteThing(name) {
-    try {
-      const deleted = await this.findOneAndRemove({ name });
-      if (!deleted) {
-        throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
-      }
-      return deleted.toObject();
-    } catch (err) {
-      return Promise.reject(err);
+    const deleted = await this.findOneAndRemove({ name });
+    if (!deleted) {
+      throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
     }
+    return deleted.toObject();
   },
   /**
    * Get a single Thing by name
@@ -58,16 +50,12 @@ thingSchema.statics = {
    * @returns {Promise<Thing, APIError>}
    */
   async readThing(name) {
-    try {
-      const thing = await this.findOne({ name });
+    const thing = await this.findOne({ name });
 
-      if (!thing) {
-        throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
-      }
-      return thing.toObject();
-    } catch (err) {
-      return Promise.reject(err);
+    if (!thing) {
+      throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
     }
+    return thing.toObject();
   },
   /**
    * Get a list of Things
@@ -78,19 +66,15 @@ thingSchema.statics = {
    * @returns {Promise<Things, APIError>}
    */
   async readThings(query, fields, skip, limit) {
-    try {
-      const things = await this.find(query, fields)
-        .skip(skip)
-        .limit(limit)
-        .sort({ name: 1 })
-        .exec();
-      if (!things.length) {
-        return [];
-      }
-      return things.map(thing => thing.toObject());
-    } catch (err) {
-      return Promise.reject(err);
+    const things = await this.find(query, fields)
+      .skip(skip)
+      .limit(limit)
+      .sort({ name: 1 })
+      .exec();
+    if (!things.length) {
+      return [];
     }
+    return things.map(thing => thing.toObject());
   },
   /**
    * Patch/Update a single Thing
@@ -99,17 +83,13 @@ thingSchema.statics = {
    * @returns {Promise<Thing, APIError>}
    */
   async updateThing(name, thingUpdate) {
-    try {
-      const thing = await this.findOneAndUpdate({ name }, thingUpdate, {
-        new: true
-      });
-      if (!thing) {
-        throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
-      }
-      return thing.toObject();
-    } catch (err) {
-      return Promise.reject(err);
+    const thing = await this.findOneAndUpdate({ name }, thingUpdate, {
+      new: true
+    });
+    if (!thing) {
+      throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
     }
+    return thing.toObject();
   }
 };
 
