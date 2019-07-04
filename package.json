@@ -13,21 +13,20 @@
   },
   "license": "MIT",
   "dependencies": {
-    "bluebird": "3.5.3",
-    "body-parser": "1.18.3",
-    "dotenv": "6.1.0",
-    "express": "4.16.4",
+    "bluebird": "3.5.5",
+    "dotenv": "8.0.0",
+    "express": "4.17.1",
     "jsonschema": "1.2.4",
-    "mongoose": "5.3.12"
+    "mongoose": "5.6.3"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
+    "babel-eslint": "^10.0.2",
     "babel-preset-es2017": "^6.24.1",
-    "eslint": "^5.9.0",
-    "jest": "^23.6.0",
-    "jest-environment-node": "^23.4.0",
-    "mongodb-memory-server": "^2.7.2",
-    "supertest": "^3.3.0"
+    "eslint": "^6.0.1",
+    "jest": "^24.8.0",
+    "jest-environment-node": "^24.8.0",
+    "mongodb-memory-server": "^5.1.5",
+    "supertest": "^4.0.2"
   },
   "jest": {
     "globalSetup": "./config/jest/setup.js",
