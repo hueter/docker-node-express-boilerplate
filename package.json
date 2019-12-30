@@ -13,19 +13,19 @@
   },
   "license": "MIT",
   "dependencies": {
-    "bluebird": "3.7.1",
+    "bluebird": "3.7.2",
     "dotenv": "8.2.0",
     "express": "4.17.1",
-    "jsonschema": "1.2.4",
-    "mongoose": "5.7.7"
+    "jsonschema": "1.2.5",
+    "mongoose": "5.8.3"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "babel-preset-es2017": "^6.24.1",
-    "eslint": "^6.6.0",
+    "eslint": "^6.8.0",
     "jest": "^24.9.0",
     "jest-environment-node": "^24.9.0",
-    "mongodb-memory-server": "^6.0.1",
+    "mongodb-memory-server": "^6.2.0",
     "supertest": "^4.0.2"
   },
   "jest": {
