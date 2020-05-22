@@ -1,4 +1,4 @@
-FROM node:12.14.0
+FROM node:12.16.3
 
 LABEL MAINTAINER Michael Hueter <mthueter@gmail.com>
 

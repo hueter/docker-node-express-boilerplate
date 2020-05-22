@@ -16,16 +16,16 @@
     "bluebird": "3.7.2",
     "dotenv": "8.2.0",
     "express": "4.17.1",
-    "jsonschema": "1.2.5",
-    "mongoose": "5.9.4"
+    "jsonschema": "1.2.6",
+    "mongoose": "5.9.15"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "babel-preset-es2017": "^6.24.1",
-    "eslint": "^6.8.0",
-    "jest": "^25.1.0",
-    "jest-environment-node": "^25.1.0",
-    "mongodb-memory-server": "^6.3.3",
+    "eslint": "^7.0.0",
+    "jest": "^26.0.1",
+    "jest-environment-node": "^26.0.1",
+    "mongodb-memory-server": "^6.6.1",
     "supertest": "^4.0.2"
   },
   "jest": {
