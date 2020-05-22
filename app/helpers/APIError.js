@@ -8,8 +8,8 @@ class APIError extends Error {
    */
   constructor(
     status = 500,
-    title = 'Internal Server Error',
-    message = 'An unknown server error occurred.'
+    title = "Internal Server Error",
+    message = "An unknown server error occurred."
   ) {
     super(message);
     this.status = status;

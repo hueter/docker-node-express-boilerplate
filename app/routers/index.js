@@ -1,1 +1,1 @@
-exports.thingsRouter = require('./things');
+exports.thingsRouter = require("./things");

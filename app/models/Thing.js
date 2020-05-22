@@ -1,8 +1,8 @@
 // npm packages
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // app imports
-const { APIError } = require('../helpers');
+const { APIError } = require("../helpers");
 
 // globals
 const Schema = mongoose.Schema;
@@ -25,7 +25,7 @@ thingSchema.statics = {
     if (duplicate) {
       throw new APIError(
         409,
-        'Thing Already Exists',
+        "Thing Already Exists",
         `There is already a thing with name '${newThing.name}'.`
       );
     }
@@ -40,7 +40,7 @@ thingSchema.statics = {
   async deleteThing(name) {
     const deleted = await this.findOneAndRemove({ name });
     if (!deleted) {
-      throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
+      throw new APIError(404, "Thing Not Found", `No thing '${name}' found.`);
     }
     return deleted.toObject();
   },
@@ -53,7 +53,7 @@ thingSchema.statics = {
     const thing = await this.findOne({ name });
 
     if (!thing) {
-      throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
+      throw new APIError(404, "Thing Not Found", `No thing '${name}' found.`);
     }
     return thing.toObject();
   },
@@ -87,7 +87,7 @@ thingSchema.statics = {
       new: true
     });
     if (!thing) {
-      throw new APIError(404, 'Thing Not Found', `No thing '${name}' found.`);
+      throw new APIError(404, "Thing Not Found", `No thing '${name}' found.`);
     }
     return thing.toObject();
   }
@@ -105,4 +105,4 @@ thingSchema.options.toObject.transform = (doc, ret) => {
 /** Ensure MongoDB Indices **/
 thingSchema.index({ name: 1, number: 1 }, { unique: true }); // example compound idx
 
-module.exports = mongoose.model('Thing', thingSchema);
+module.exports = mongoose.model("Thing", thingSchema);

@@ -1,6 +1,6 @@
 // app imports
-const { Thing } = require('../models');
-const { APIError, parseSkipLimit } = require('../helpers');
+const { Thing } = require("../models");
+const { APIError, parseSkipLimit } = require("../helpers");
 
 /**
  * List all the things. Query params ?skip=0&limit=1000 by default

@@ -1,10 +1,10 @@
 // npm packages
-const { validate } = require('jsonschema');
+const { validate } = require("jsonschema");
 
 // app imports
-const { Thing } = require('../models');
-const { APIError } = require('../helpers');
-const { thingNewSchema, thingUpdateSchema } = require('../schemas');
+const { Thing } = require("../models");
+const { APIError } = require("../helpers");
+const { thingNewSchema, thingUpdateSchema } = require("../schemas");
 
 /**
  * Validate the POST request body and create a new Thing
@@ -15,8 +15,8 @@ async function createThing(request, response, next) {
     return next(
       new APIError(
         400,
-        'Bad Request',
-        validation.errors.map(e => e.stack).join('. ')
+        "Bad Request",
+        validation.errors.map(e => e.stack).join(". ")
       )
     );
   }
@@ -55,8 +55,8 @@ async function updateThing(request, response, next) {
     return next(
       new APIError(
         400,
-        'Bad Request',
-        validation.errors.map(e => e.stack).join('. ')
+        "Bad Request",
+        validation.errors.map(e => e.stack).join(". ")
       )
     );
   }
