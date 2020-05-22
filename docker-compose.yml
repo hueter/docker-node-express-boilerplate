@@ -8,17 +8,17 @@ services:
     depends_on:
       - mongodb
     ports:
-      - '5000:5000'
+      - "5000:5000"
     volumes:
       - .:/home/nodejs/app
-      - /home/nodejs/app/node_modules
+      - ./node_modules:/home/nodejs/node_modules
 
   nginx:
     image: nginx:1.17
     links:
       - app
     ports:
-      - '80:80'
+      - "80:80"
     volumes:
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
