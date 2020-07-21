@@ -14,7 +14,7 @@ services:
       - ./node_modules:/home/nodejs/node_modules
 
   nginx:
-    image: nginx:1.17
+    image: nginx:1.19
     links:
       - app
     ports:
