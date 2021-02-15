@@ -1,5 +1,4 @@
-FROM node:12.18.4
-
+FROM node:14.15.5
 LABEL MAINTAINER Michael Hueter <mthueter@gmail.com>
 
 RUN npm install pm2@latest --global --quiet
