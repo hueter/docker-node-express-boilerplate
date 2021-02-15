@@ -53,12 +53,11 @@ describe("POST /things", () => {
       .post("/things")
       .send(fullThing);
     expect(response.body).toEqual(fullThing);
-  });
-  test("Cannot Create Things with the Same Name", async () => {
-    let response = await request(app)
+
+    let duplicateResponse = await request(app)
       .post("/things")
-      .send({ name: "Example" });
-    expect(response.status).toEqual(409);
+      .send({ name: "Other Thing" });
+    expect(duplicateResponse.status).toEqual(409);
   });
 });
 
