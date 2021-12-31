@@ -2,30 +2,25 @@ const mongoose = require("mongoose");
 
 const APP_NAME = "Boilerplate API";
 const ENV = process.env.NODE_ENV;
-const PORT = process.env.PORT || 5000;
-
-// database configs
-
-let MONGODB_URI = process.env.MONGODB_URI || "mongodb://mongodb/boilerplate";
-if (ENV === "test") {
-  MONGODB_URI = global.__MONGO_URI__;
-}
-
-mongoose.Promise = Promise;
-if (ENV === "development" || ENV === "test") {
-  mongoose.set("debug", true);
-}
+const PORT = process.env.PORT || 8080;
 
 /**
  * Connect to mongoose asynchronously or bail out if it fails
  */
 async function connectToDatabase() {
+  const MONGODB_URI =
+    process.env.MONGODB_URI || "mongodb://mongodb/boilerplate";
+
+  mongoose.Promise = Promise;
+  if (ENV === "development" || ENV === "test") {
+    mongoose.set("debug", true);
+  }
+
   try {
     await mongoose.connect(MONGODB_URI, {
       autoIndex: false,
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false
     });
     console.log(`${APP_NAME} successfully connected to database.`);
   } catch (error) {
@@ -55,8 +50,7 @@ function globalResponseHeaders(request, response, next) {
 module.exports = {
   APP_NAME,
   ENV,
-  MONGODB_URI,
   PORT,
   connectToDatabase,
-  globalResponseHeaders
+  globalResponseHeaders,
 };

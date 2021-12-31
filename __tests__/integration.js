@@ -1,16 +1,16 @@
 /**
  * These tests currently only work if you have a local MongoDB database
  */
-const app = require("../app/app");
 const request = require("supertest");
 const mongoose = require("mongoose");
+const app = require("../app/app");
+const { Thing } = require("../app/models");
 
-let { Thing } = require("../app/models");
-let exampleThing = {
+const exampleThing = {
   name: "Example",
   number: 5,
   stuff: ["cats", "dogs"],
-  url: "https://google.com"
+  url: "https://google.com",
 };
 
 beforeEach(async () => {
@@ -23,9 +23,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  // CLEAN UP
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
+  await mongoose.disconnect();
 });
 
 describe("GET /things", () => {
@@ -37,9 +35,7 @@ describe("GET /things", () => {
 
 describe("POST /things", () => {
   test("Create a mini new Thing", async () => {
-    let response = await request(app)
-      .post("/things")
-      .send({ name: "A Thing" });
+    let response = await request(app).post("/things").send({ name: "A Thing" });
     expect(response.body).toEqual({ name: "A Thing", stuff: [] });
   });
   test("Create a full new Thing", async () => {
@@ -47,11 +43,9 @@ describe("POST /things", () => {
       name: "Other Thing",
       stuff: ["cats", "dogs"],
       number: 5,
-      url: "http://google.com"
+      url: "http://google.com",
     };
-    let response = await request(app)
-      .post("/things")
-      .send(fullThing);
+    let response = await request(app).post("/things").send(fullThing);
     expect(response.body).toEqual(fullThing);
 
     let duplicateResponse = await request(app)

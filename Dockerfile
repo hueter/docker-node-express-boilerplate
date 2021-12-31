@@ -1,20 +1,16 @@
-FROM node:14.16.1
+FROM node:16
 LABEL MAINTAINER Michael Hueter <mthueter@gmail.com>
 
 RUN npm install pm2@latest --global --quiet
-# add local user for security
-RUN groupadd -r nodejs \
-  && useradd -m -r -g nodejs nodejs
 
-USER nodejs
+WORKDIR /usr/src/app
+COPY package*.json ./
 
-# copy local files into container, set working directory and user
-RUN mkdir -p /home/nodejs/app
-WORKDIR /home/nodejs/app
-COPY . /home/nodejs/app
+# Bundle app source
+COPY . .
 
-RUN npm install --production --quiet
+RUN npm ci --only=production
 
-EXPOSE 5000
+EXPOSE 8080
 
 CMD ["pm2-runtime", "./config/pm2.json"]

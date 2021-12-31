@@ -4,3 +4,5 @@ node_modules
 logos.png
 LICENSE
 README.md
+npm-debug.log
+

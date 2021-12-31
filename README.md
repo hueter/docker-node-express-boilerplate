@@ -1,5 +1,6 @@
 # RESTful API Server Boilerplate
-## Featuring Docker, Node, Express, MongoDB, Mongoose, & NGINX 
+
+## Featuring Docker, Node, Express, MongoDB, Mongoose, & NGINX
 
 ![Tech Logos](./logos.png)
 
@@ -29,7 +30,7 @@ You will need to first download and install [Docker Desktop](https://www.docker.
     - the MongoDB database container
     - the Node.js app container
     - the NGINX proxy container
-1.  Server is accessible at `http://localhost:5000` if you have Docker for Windows or Mac. Use `http://localhost` without specifying the port to hit the NGINX proxy. On Linux, you may need to hit the IP Address of the docker-machine rather than `localhost` (port rules are the same.)
+1.  Server is accessible at `http://localhost:8080` if you have Docker for Windows or Mac. Use `http://localhost` without specifying the port to hit the NGINX proxy. On Linux, you may need to hit the IP Address of the docker-machine rather than `localhost` (port rules are the same.)
 
 ## How to Run Tests
 
